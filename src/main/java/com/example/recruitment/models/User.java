@@ -7,9 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -37,7 +35,32 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+    private List<PositionProfile> positionProfiles= new ArrayList<>();
+
     private LocalDateTime dateOfCreated;
+
+    public User() {
+    }
+
+    public boolean isAdmin() {
+        return roles.contains(Role.ROLE_ADMIN);
+    }
+    public boolean isDirector() {
+        return roles.contains(Role.ROLE_DIRECTOR);
+    }
+    public boolean isDepartmentHead() {
+        return roles.contains(Role.ROLE_DEPARTMENTHEAD);
+    }
+    public boolean isApplicant() {
+        return roles.contains(Role.ROLE_APPLICANT);
+    }
+    public boolean isRecruter() {
+        return roles.contains(Role.ROLE_RECRUTER);
+    }
+    public boolean isUser() {
+        return roles.contains(Role.ROLE_USER);
+    }
 
     @PrePersist
     private void init() {
@@ -73,4 +96,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return active;
     }
-}
+
+   }

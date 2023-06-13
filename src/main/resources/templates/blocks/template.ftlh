@@ -18,7 +18,7 @@
     <nav class="navbar navbar-dark bg-dark">
         <div class="container-fluid">
             <a href="/">
-                <span class="navbar-brand mb-0 h1">Отдела подбора</span>
+                <span class="navbar-brand mb-0 h1">Отдел подбора</span>
             </a>
             <#if user.email??>
                 <div class="dropdown text-end">

@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>BUYSELL</title>
+    <meta charset="UTF-8">
+    <title>РћС‚РґРµР» РїРѕРґР±РѕСЂР°</title>
 </head>
 <body>
-<h1>BUYSELL</h1><hr>
-<h3>Редактирование пользователя ${user.name}</h3>
+<h1>РћС‚РґРµР» РїРѕРґР±РѕСЂР°</h1><hr>
+<h3>Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ ${user.name}</h3>
 <form action="/admin/user/edit" method="post">
     <#list roles as role>
     <div>
@@ -14,7 +15,7 @@
 </#list>
 <input type="hidden" value="${user.id}" name="userId">
 <input type="hidden" value="${_csrf.token}" name="_csrf">
-<button type="submit">Сохранить</button>
+<button type="submit">РЎРѕС…СЂР°РЅРёС‚СЊ</button>
 </form>
 </body>
 </html>

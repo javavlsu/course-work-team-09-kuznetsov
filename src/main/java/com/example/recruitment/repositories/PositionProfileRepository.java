@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface PositionProfileRepository extends JpaRepository<PositionProfile, Long> {
-    List<PositionProfile> findAll();
+    List<PositionProfile> findByTitle(String title);
 }

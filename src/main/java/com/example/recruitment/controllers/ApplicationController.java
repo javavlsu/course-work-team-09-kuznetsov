@@ -36,7 +36,7 @@ public class ApplicationController {
     @PostMapping("/application/delete/{id}")
     public String deleteApplication(@PathVariable Long id) {
         applicationsService.deleteApplication(id);
-        return "redirect:/";
+        return "redirect:/application";
     }
 
 }

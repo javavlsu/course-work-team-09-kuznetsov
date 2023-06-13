@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
@@ -19,14 +20,16 @@ public class PositionProfileController {
     private final PositionProfileService positionProfileService;
 
     @GetMapping("/positionProfile")
-    public String positionProfiles(Model model) {
-        model.addAttribute("positionProfiles", positionProfileService.listPositionProfile());
+    public String positionProfiles(@RequestParam(name = "title", required = false) String title, Principal principal, Model model) {
+        model.addAttribute("positionProfiles", positionProfileService.listPositionProfile(title));
+        model.addAttribute("user", positionProfileService.getUserByPrincipal(principal));
         return "positionProfiles";
     }
 
     @GetMapping("/positionProfile/{id}")
-    public String positionProfileInfo(@PathVariable Long id, Model model) {
+    public String positionProfileInfo(@PathVariable Long id, Model model, Principal principal) {
         PositionProfile positionProfile = positionProfileService.getPositionProfileById(id);
+        model.addAttribute("user", positionProfileService.getUserByPrincipal(principal));
         model.addAttribute("positionProfile", positionProfile);
         model.addAttribute("images", positionProfile.getImages());
         return "positionProfile-info";
@@ -34,14 +37,14 @@ public class PositionProfileController {
 
     @PostMapping("/positionProfile/create")
     public String createApplication(@RequestParam("file1") MultipartFile file1, @RequestParam("file2") MultipartFile file2,
-                                    @RequestParam("file3") MultipartFile file3, PositionProfile positionProfile) throws IOException {
-        positionProfileService.savePositionProfile(positionProfile, file1, file2, file3);
-        return "redirect:/";
+                                    @RequestParam("file3") MultipartFile file3, PositionProfile positionProfile, Principal principal) throws IOException {
+        positionProfileService.savePositionProfile(principal,positionProfile, file1, file2, file3);
+        return "redirect:/positionProfile";
     }
 
     @PostMapping("/positionProfile/delete/{id}")
-    public String deletePositionProfile(@PathVariable Long id) {
-        positionProfileService.deletePositionProfile(id);
+    public String deletePositionProfile(@PathVariable Long id, Principal principal) {
+        positionProfileService.deletePositionProfile(positionProfileService.getUserByPrincipal(principal), id);
         return "redirect:/";
     }
 }

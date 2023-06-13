@@ -1,38 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Отдел подбора</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"
+    <meta charset="UTF-8">
+    <title>РћС‚РґРµР» РїРѕРґР±РѕСЂР°</title>
 </head>
 <body>
 <hr>
-<h4>Панель администратора</h4>
-<table border="1">
+<h4>РџР°РЅРµР»СЊ Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂР°</h4>
+<table class="table">
+    <thead class="thead-light">
     <tr>
-        <th>Email</th>
-        <th>Номер телефона</th>
-        <th>Активность</th>
-        <th>Роли</th>
-        <th>Бан</th>
-        <th>Редактирование</th>
-        <th>Подробная информация</th>
+        <th scope="col">Email</th>
+        <th scope="col">РќРѕРјРµСЂ С‚РµР»РµС„РѕРЅР°</th>
+        <th scope="col">РђРєС‚РёРІРЅРѕСЃС‚СЊ</th>
+        <th scope="col">Р РѕР»Рё</th>
+        <th scope="col">Р‘Р°РЅ</th>
+        <th scope="col">Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ</th>
     </tr>
+    </thead>
     <#list users as user>
     <tr>
         <th>${user.email}</th>
-        <th>${user.phoneNumber}</th>
+        <th>${user.numberPhone}</th>
         <th><#if user.active>true<#else>false</#if></th>
         <th><#list user.roles as role>${role}</#list></th>
         <th>
             <form action="/admin/user/ban/${user.id}" method="post">
                 <input type="hidden" name="_csrf" value="${_csrf.token}">
-                <input type="submit" value="Бан">
+                <input type="submit" value="Р‘Р°РЅ">
             </form>
         </th>
-        <th><a href="/admin/user/edit/${user.id}">Редактировние</a></th>
-        <th><a href="/user/${user.id}">Подробная информация</a></th>
+        <th><a href="/admin/user/edit/${user.id}">РќР°Р·РЅР°С‡РёС‚СЊ СЂРѕР»СЊ</a></th>
     </tr>
     <#else>
-    <h3>Пользователей нет</h3>
+    <h3>РџРѕР»СЊР·РѕРІР°С‚РµР»РµР№ РЅРµС‚</h3>
 </#list>
 </table>
 </body>

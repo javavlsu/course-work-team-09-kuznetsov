@@ -10,7 +10,7 @@
 </#list>
 
 <h3>Подробная информация о профиле должности</h3>
-    <b>Наименование должности: </b> ${positionProfile.name_post}<br>
+    <b>Наименование должности: </b> ${positionProfile.title}<br>
     <b>Описание: </b> ${positionProfile.description}<br>
     <b>Заработная плата: </b> ${positionProfile.wage}<br>
     <b>График: </b> ${positionProfile.schedule}<br>

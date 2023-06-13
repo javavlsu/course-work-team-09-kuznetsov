@@ -1,7 +1,6 @@
 package com.example.recruitment.models;
 
 import javax.persistence.*;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +12,8 @@ public class PositionProfile {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long Id;
-    @Column(name = "name_post")
-    private String name_post;
+    @Column(name = "title")
+    private String title;
     @Column(name = "Description", columnDefinition = "text")
     private String Description;
     @Column(name = "Wage")
@@ -27,6 +26,9 @@ public class PositionProfile {
     private String Experience;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "positionProfile")
     private List<Image> images = new ArrayList<>();
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @JoinColumn
+    private User user;
     private Long previewImageId;
     private LocalDateTime dateOfCreated;
 
@@ -47,8 +49,8 @@ public class PositionProfile {
         return this.Id;
     }
 
-    public String getName_post() {
-        return this.name_post;
+    public String getTitle() {
+        return this.title;
     }
 
     public String getDescription() {
@@ -75,6 +77,10 @@ public class PositionProfile {
         return this.images;
     }
 
+    public User getUser() {
+        return this.user;
+    }
+
     public Long getPreviewImageId() {
         return this.previewImageId;
     }
@@ -87,8 +93,8 @@ public class PositionProfile {
         this.Id = Id;
     }
 
-    public void setName_post(String name_post) {
-        this.name_post = name_post;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public void setDescription(String Description) {
@@ -115,6 +121,10 @@ public class PositionProfile {
         this.images = images;
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public void setPreviewImageId(Long previewImageId) {
         this.previewImageId = previewImageId;
     }
@@ -131,9 +141,9 @@ public class PositionProfile {
         final Object this$Id = this.getId();
         final Object other$Id = other.getId();
         if (this$Id == null ? other$Id != null : !this$Id.equals(other$Id)) return false;
-        final Object this$name_post = this.getName_post();
-        final Object other$name_post = other.getName_post();
-        if (this$name_post == null ? other$name_post != null : !this$name_post.equals(other$name_post)) return false;
+        final Object this$title = this.getTitle();
+        final Object other$title = other.getTitle();
+        if (this$title == null ? other$title != null : !this$title.equals(other$title)) return false;
         final Object this$Description = this.getDescription();
         final Object other$Description = other.getDescription();
         if (this$Description == null ? other$Description != null : !this$Description.equals(other$Description))
@@ -153,6 +163,9 @@ public class PositionProfile {
         final Object this$images = this.getImages();
         final Object other$images = other.getImages();
         if (this$images == null ? other$images != null : !this$images.equals(other$images)) return false;
+        final Object this$user = this.getUser();
+        final Object other$user = other.getUser();
+        if (this$user == null ? other$user != null : !this$user.equals(other$user)) return false;
         final Object this$previewImageId = this.getPreviewImageId();
         final Object other$previewImageId = other.getPreviewImageId();
         if (this$previewImageId == null ? other$previewImageId != null : !this$previewImageId.equals(other$previewImageId))
@@ -173,8 +186,8 @@ public class PositionProfile {
         int result = 1;
         final Object $Id = this.getId();
         result = result * PRIME + ($Id == null ? 43 : $Id.hashCode());
-        final Object $name_post = this.getName_post();
-        result = result * PRIME + ($name_post == null ? 43 : $name_post.hashCode());
+        final Object $title = this.getTitle();
+        result = result * PRIME + ($title == null ? 43 : $title.hashCode());
         final Object $Description = this.getDescription();
         result = result * PRIME + ($Description == null ? 43 : $Description.hashCode());
         result = result * PRIME + this.getWage();
@@ -186,6 +199,8 @@ public class PositionProfile {
         result = result * PRIME + ($Experience == null ? 43 : $Experience.hashCode());
         final Object $images = this.getImages();
         result = result * PRIME + ($images == null ? 43 : $images.hashCode());
+        final Object $user = this.getUser();
+        result = result * PRIME + ($user == null ? 43 : $user.hashCode());
         final Object $previewImageId = this.getPreviewImageId();
         result = result * PRIME + ($previewImageId == null ? 43 : $previewImageId.hashCode());
         final Object $dateOfCreated = this.getDateOfCreated();
@@ -194,6 +209,6 @@ public class PositionProfile {
     }
 
     public String toString() {
-        return "PositionProfile(Id=" + this.getId() + ", name_post=" + this.getName_post() + ", Description=" + this.getDescription() + ", Wage=" + this.getWage() + ", Schedule=" + this.getSchedule() + ", Requirements=" + this.getRequirements() + ", Experience=" + this.getExperience() + ", images=" + this.getImages() + ", previewImageId=" + this.getPreviewImageId() + ", dateOfCreated=" + this.getDateOfCreated() + ")";
+        return "PositionProfile(Id=" + this.getId() + ", title=" + this.getTitle() + ", Description=" + this.getDescription() + ", Wage=" + this.getWage() + ", Schedule=" + this.getSchedule() + ", Requirements=" + this.getRequirements() + ", Experience=" + this.getExperience() + ", images=" + this.getImages() + ", user=" + this.getUser() + ", previewImageId=" + this.getPreviewImageId() + ", dateOfCreated=" + this.getDateOfCreated() + ")";
     }
 }

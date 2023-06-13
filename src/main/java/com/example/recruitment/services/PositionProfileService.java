@@ -3,13 +3,16 @@ package com.example.recruitment.services;
 
 import com.example.recruitment.models.Image;
 import com.example.recruitment.models.PositionProfile;
+import com.example.recruitment.models.User;
 import com.example.recruitment.repositories.PositionProfileRepository;
+import com.example.recruitment.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
 @Service
@@ -17,12 +20,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PositionProfileService {
     private final PositionProfileRepository positionProfileRepository;
+    private final UserRepository userRepository;
 
-    public List<PositionProfile> listPositionProfile() {
+    public List<PositionProfile> listPositionProfile(String title) {
+        if (title != null) return positionProfileRepository.findByTitle(title);
         return positionProfileRepository.findAll();
     }
 
-    public void savePositionProfile(PositionProfile positionProfile, MultipartFile file1, MultipartFile file2, MultipartFile file3) throws IOException {
+    public void savePositionProfile(Principal principal, PositionProfile positionProfile, MultipartFile file1, MultipartFile file2, MultipartFile file3) throws IOException {
+        positionProfile.setUser(getUserByPrincipal(principal));
         Image image1;
         Image image2;
         Image image3;
@@ -39,10 +45,15 @@ public class PositionProfileService {
             image3 = toImageEntity(file3);
             positionProfile.addImageToPositionProfile(image3);
         }
-        log.info("Saving new Profile. Name Post: {}", positionProfile.getName_post());
-        PositionProfile positionProfileFromDb = positionProfileRepository.save(positionProfile);
-        positionProfileFromDb.setPreviewImageId(positionProfileFromDb.getImages().get(0).getId());
+        log.info("Saving new PositionProfile. Title: {}", positionProfile.getTitle(), positionProfile.getUser().getEmail());
+        PositionProfile positionProfileFromDB = positionProfileRepository.save(positionProfile);
+        positionProfileFromDB.setPreviewImageId(positionProfileFromDB.getImages().get(0).getId());
         positionProfileRepository.save(positionProfile);
+    }
+
+    public User getUserByPrincipal(Principal principal) {
+        if (principal == null) return new User();
+        return userRepository.findByEmail(principal.getName());
     }
 
     private Image toImageEntity(MultipartFile file) throws IOException {
@@ -55,9 +66,19 @@ public class PositionProfileService {
         return image;
     }
 
-    public void deletePositionProfile(Long id) {
-        positionProfileRepository.deleteById(id);
-    }
+    public void deletePositionProfile(User user, Long id) {
+        PositionProfile positionProfile= positionProfileRepository.findById(id)
+                .orElse(null);
+        if (positionProfile != null) {
+            if (positionProfile.getUser().getId().equals(user.getId())) {
+                positionProfileRepository.delete(positionProfile);
+                log.info("PositionProfile with id = {} was deleted", id);
+            } else {
+                log.error("User: {} haven't this positionProfile with id = {}", user.getEmail(), id);
+            }
+        } else {
+            log.error("PositionProfile with id = {} is not found", id);
+        }    }
 
     public PositionProfile getPositionProfileById(Long id) {
         return positionProfileRepository.findById(id).orElse(null);

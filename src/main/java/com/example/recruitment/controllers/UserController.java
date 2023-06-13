@@ -15,7 +15,7 @@ import java.security.Principal;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("/")
+    @GetMapping("/login")
     public String login(Principal principal, Model model) {
         model.addAttribute("user", userService.getUserByPrincipal(principal));
         return "login";
@@ -39,11 +39,11 @@ public class UserController {
             model.addAttribute("Error Message","Пользователь с email:" + user.getEmail() + "уже существует! ");
             return "registration";
         }
-        return "hello";
+        return "positionProfile";
     }
 
-    @GetMapping("/hello")
+    @GetMapping("/index")
     public String securityUrl() {
-        return "hello";
+        return "index";
     }
 }

@@ -17,9 +17,10 @@
                 Неверный пароль
             </div>
         </div>
+
         <input type="hidden" name="_csrf" value="${_csrf.token}">
         <button type="submit" style="width: 100%" class="btn btn-dark">Войти</button>
     </form>
     <hr>
-    <h2>Нет аккаунта BUYSELL? <a href="/registration">Зарегистрируйся!</a></h2>
+    <h2>Нет аккаунта в отделе подбора? <a href="/registration">Зарегистрируйся!</a></h2>
 </@t.template>

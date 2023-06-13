@@ -1,35 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Просмотр профилей должностей !</title>
-</head>
-<body>
-<a href="/login">Войти</a>
-<form action="/logout" method="post">
-    <input type="hidden" name="_csrf" value="${_csrf.token}">
-    <input type="submit" value="Выйти">
-</form>
-<h1>Список профилей</h1><hr>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="/static/css/style.css">
 
-<#list positionProfiles as positionProfile>
-    <div>
-        <p><b>${positionProfile.name_post}</b> | ${positionProfile.description} | <a href="/positionProfile/${positionProfile.id}">Подробнее</a></p>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+              integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
+              crossorigin="anonymous">
+
+        <title>Отдел подбора</title>
+    </head>
+<body style="margin-left:10%; margin-right:10%">
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a href="/">
+            <span class="navbar-brand mb-0 h1">Отдел подбора</span>
+        </a>
+        <#if user.email??>
+        <div class="dropdown text-end">
+            <a href="/profile">
+                <img src="/static/images/avatar.png" alt="mdo"
+                     width="32" height="32" class="rounded-circle">
+            </a>
+        </div>
+        <#else>
+        <button class="btn btn-light my-2 my-sm-0" type="button"
+                onclick="window.location.href = '/login'">
+            Войти
+        </button>
+    </#if>
     </div>
-</#list>
+</nav>
 <hr>
-<h3>Создать новый профиль должности:</h3>
-<form action="/positionProfile/create" method="post" enctype="multipart/form-data">
-    Наименование должности: <input type="text" name="name_post"/><br><br>
-    Описание: <input type="text" name="Description"/><br><br>
-    Заработная плата: <input type="number" name="Wage"/><br><br>
-    График: <input type="text" name="Schedule"/><br><br>
-    Требования: <input type="text" name="Requirements"/><br><br>
-    Опыт работы: <input type="text" name="Experience"/><br><br>
-    Первая фотография: <input type="file" name="file1"/><br><br>
-    Вторая фотография: <input type="file" name="file2"/><br><br>
-    Третья фотография: <input type="file" name="file3"/><br><br>
-    <input type="submit" value="Добавить профиль должности"/>
-</form>
+<#if user.email??>
+    <#if user.isRecruter()>
+    <h2>Добро пожаловать! Вы зашли как рекрутер.</h2>
+    <h3>Создать новый профиль должности:</h3><hr>
+    <div>
+        <form action="/positionProfile/create" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="title">Наименование вакансии</label>
+                <input type="text" required class="form-control"
+                       id="title" name="title">
+            </div>
+            <div class="form-group">
+                <label for="description">Описание</label>
+                <textarea required class="form-control" id="description" name="description"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="wage">Заработная плата</label>
+                <div class="input-group mb-3">
+                    <input type="number" required class="form-control" id="wage" name="wage">
+                    <div class="input-group-append">
+                        <span class="input-group-text">₽</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="schedule">График</label>
+                <select id="schedule" required name="schedule" class="form-control">
+                    <option value="">График не выбран</option>
+
+                    <option value="1/3">График: 1/3</option>
+                    <option value="2/2">График: 2/2</option>
+                    <option value="2/4">График: 2/4</option>
+
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="requirements">Требования</label>
+                <textarea required class="form-control" id="requirements" name="requirements"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="experience">Опыт работы</label>
+                <textarea required class="form-control" id="experience" name="experience"></textarea>
+            </div>
+            <div class="form-group">
+                <div class="custom-file">
+                    <input required type="file" name="file1" id="file1">
+                    <label class="custom-file-label" for="file1">Первая фотография к товару</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="custom-file">
+                    <input type="file" name="file2" id="file2">
+                    <label class="custom-file-label" for="file2">Вторая фотография к товару</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="custom-file">
+                    <input type="file" name="file3" id="file3">
+                    <label class="custom-file-label" for="file3">Третья фотография к товару</label>
+                </div>
+            </div>
+            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+
+            <button type="submit" style="width: 100%" class="btn btn-dark">Добавить</button>
+        </form>
+    </div>
+    <hr>
+    <h3>Доступные вакансии:</h3>
+    <div class="card-columns">
+        <#list positionProfiles as positionProfile>
+        <a href="/positionProfile/${positionProfile.id}" class="product-link">
+            <div class="card text-white bg-dark my-3 product">
+                <img src="/images/${positionProfile.previewImageId}"
+                     class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">${positionProfile.title}</h5>
+                    <p class="card-text">${positionProfile.wage} ₽</p>
+                </div>
+                <div class="card-footer">
+                    ${positionProfile.schedule}
+                </div>
+            </div>
+        </a>
+        <#else>
+        <h1 style="text-align: center">Не найдено</h1>
+    </#list>
+    </#if>
+</#if>
+<hr>
+<#if user.isAdmin()>
+    <h3>Добро пожаловать ! Вы зашли как администратор.</h3>
+    <a href="/admin">Перейти в панель администратора</a>
+    <hr>
+    <h3>Доступные вакансии:</h3>
+    <div class="card-columns">
+        <#list positionProfiles as positionProfile>
+        <a href="/positionProfile/${positionProfile.id}" class="product-link">
+            <div class="card text-white bg-dark my-3 product">
+                <img src="/images/${positionProfile.previewImageId}"
+                     class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">${positionProfile.title}</h5>
+                    <p class="card-text">${positionProfile.wage} ₽</p>
+                </div>
+                <div class="card-footer">
+                    ${positionProfile.schedule}
+                </div>
+            </div>
+        </a>
+        <#else>
+        <h1 style="text-align: center">Не найдено</h1>
+</#list>
+</#if>
+<#if user.isDepartmentHead()>
+    <h3>Добро пожаловать ! Вы зашли как руководитель департамента.</h3>
+    <hr>
+    <h4>Добавить новую заявку</h4>
+<div>
+    <form action="/application/create" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="title1">Наименование заявки</label>
+            <input type="text" required class="form-control"
+                   id="title1" name="title">
+        </div>
+        <div class="form-group">
+            <label for="name_post">Наименование вакансии</label>
+            <input type="text" required class="form-control"
+                   id="name_post" name="name_post">
+        </div>
+        <div class="form-group">
+            <label for="number_people">Количество людей</label>
+            <div class="input-group mb-3">
+                <input type="number" required class="form-control" id="number_people" name="number_people">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="requirements">Требования</label>
+            <textarea required class="form-control" id="requirements1" name="requirements"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="wage1">Заработная плата</label>
+            <div class="input-group mb-3">
+                <input type="number" required class="form-control" id="wage1" name="wage">
+                <div class="input-group-append">
+                    <span class="input-group-text">₽</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="schedule1">График</label>
+            <div class="input-group mb-3">
+                <input type="text" required class="form-control" id="schedule1" name="schedule">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="date_of_completion">Дата создания</label>
+            <div class="input-group mb-3">
+                <input type="text" required class="form-control" id="date_of_completion" name="date_of_completion">
+            </div>
+        </div>
+        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+
+        <button type="submit" style="width: 100%" class="btn btn-dark">Добавить</button>
+    </form>
+</div>
+<hr>
+<br>
+<div>
+    <a href="/application">Перейти к просмотру имеющихся заявок...</a>
+</div>
+<br>ы
+</#if>
+
+
 </body>
 </html>
