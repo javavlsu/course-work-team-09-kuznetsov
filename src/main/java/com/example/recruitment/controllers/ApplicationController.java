@@ -10,19 +10,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
+
 @Controller
 @RequiredArgsConstructor
 public class ApplicationController {
     private final ApplicationsService applicationsService;
 
     @GetMapping("/application")
-    public String applications(@RequestParam(name = "title", required = false) String title, Model model) {
+    public String applications(@RequestParam(name = "title", required = false) String title, Principal principal, Model model) {
         model.addAttribute("applications", applicationsService.listApplications(title));
+        model.addAttribute("user", applicationsService.getUserByPrincipal(principal));
         return "applications";
     }
 
     @GetMapping("/application/{id}")
-    public String applicationInfo(@PathVariable Long id, Model model) {
+    public String applicationInfo(@PathVariable Long id, Model model, Principal principal) {
+        Application application= applicationsService.getApplicationById(id);
+        model.addAttribute("user", applicationsService.getUserByPrincipal(principal));
         model.addAttribute("application", applicationsService.getApplicationById(id));
         return "application-info";
     }
@@ -36,7 +41,7 @@ public class ApplicationController {
     @PostMapping("/application/delete/{id}")
     public String deleteApplication(@PathVariable Long id) {
         applicationsService.deleteApplication(id);
-        return "redirect:/application";
+        return "application-info";
     }
 
 }

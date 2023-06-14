@@ -20,10 +20,42 @@
         </a>
         <#if user.email??>
         <div class="dropdown text-end">
-            <a href="/profile">
-                <img src="/static/images/avatar.png" alt="mdo"
-                     width="32" height="32" class="rounded-circle">
-            </a>
+            <#if user.isAdmin()>
+                <a href="/profile">
+                    <img src="/static/images/avatar3.jpg" alt="mdo"
+                         width="32" height="32" class="rounded-circle">
+                </a>
+            </#if>
+            <#if user.isRecruter()>
+                <a href="/profile">
+                    <img src="/static/images/avatar2.JPG" alt="mdo"
+                         width="32" height="32" class="rounded-circle">
+                </a>
+            </#if>
+            <#if user.isDirector()>
+                <a href="/profile">
+                    <img src="/static/images/avatar5.jpg" alt="mdo"
+                         width="32" height="32" class="rounded-circle">
+                </a>
+            </#if>
+            <#if user.isDepartmentHead()>
+                <a href="/profile">
+                    <img src="/static/images/avatar6.JPG" alt="mdo"
+                         width="32" height="32" class="rounded-circle">
+                </a>
+            </#if>
+            <#if user.isApplicant()>
+                <a href="/profile">
+                    <img src="/static/images/avatar4.jpg" alt="mdo"
+                         width="32" height="32" class="rounded-circle">
+                </a>
+            </#if>
+            <#if user.isUser()>
+                <a href="/profile">
+                    <img src="/static/images/avatar.png" alt="mdo"
+                         width="32" height="32" class="rounded-circle">
+                </a>
+            </#if>
         </div>
         <#else>
         <button class="btn btn-light my-2 my-sm-0" type="button"
@@ -37,7 +69,10 @@
 <#if user.email??>
     <#if user.isRecruter()>
     <h2>Добро пожаловать! Вы зашли как рекрутер.</h2>
-    <h3>Создать новый профиль должности:</h3><hr>
+    <a href="/application">Перейти к просмотру заявок на подбор</a> |
+    <a href="/">Перейти к просмотру входящих резюме</a>
+<hr>
+    <h4>Создать новый профиль должности:</h4><hr>
     <div>
         <form action="/positionProfile/create" method="post" enctype="multipart/form-data">
             <div class="form-group">
@@ -184,9 +219,14 @@
         </div>
         <div class="form-group">
             <label for="schedule1">График</label>
-            <div class="input-group mb-3">
-                <input type="text" required class="form-control" id="schedule1" name="schedule">
-            </div>
+            <select id="schedule1" required name="schedule" class="form-control">
+                <option value="">График не выбран</option>
+
+                <option value="1/3">График: 1/3</option>
+                <option value="2/2">График: 2/2</option>
+                <option value="2/4">График: 2/4</option>
+
+            </select>
         </div>
         <div class="form-group">
             <label for="date_of_completion">Дата создания</label>
@@ -204,9 +244,37 @@
 <div>
     <a href="/application">Перейти к просмотру имеющихся заявок...</a>
 </div>
-<br>ы
+<br>
+</#if>
+<#if user.isDirector()>
+<h3>Добро пожаловать ! Вы зашли как директор.</h3>
+<hr>
+<h4>Откройте список заявок для визирования</h4>
+    <a href="/application">Список заявок...</a>
 </#if>
 
-
+<#if user.isApplicant()>
+    <h3>Добро пожаловать ! Вы зашли как соискатель.</h3>
+<hr>
+<h3>Доступные вакансии:</h3>
+<div class="card-columns">
+    <#list positionProfiles as positionProfile>
+    <a href="/positionProfile/${positionProfile.id}" class="product-link">
+        <div class="card text-white bg-dark my-3 product">
+            <img src="/images/${positionProfile.previewImageId}"
+                 class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title">${positionProfile.title}</h5>
+                <p class="card-text">${positionProfile.wage} ₽</p>
+            </div>
+            <div class="card-footer">
+                ${positionProfile.schedule}
+            </div>
+        </div>
+    </a>
+    <#else>
+    <h1 style="text-align: center">Не найдено</h1>
+</#list>
+</#if>
 </body>
 </html>
