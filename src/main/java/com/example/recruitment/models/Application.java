@@ -26,5 +26,8 @@ public class Application {
     private String schedule;
     @Column(name = "date_of_completion")
     private String date_of_completion;
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @JoinColumn
+    private User user;
 
 }

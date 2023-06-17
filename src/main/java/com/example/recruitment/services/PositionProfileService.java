@@ -8,7 +8,10 @@ import com.example.recruitment.repositories.PositionProfileRepository;
 import com.example.recruitment.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -21,12 +24,13 @@ import java.util.List;
 public class PositionProfileService {
     private final PositionProfileRepository positionProfileRepository;
     private final UserRepository userRepository;
-
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public List<PositionProfile> listPositionProfile(String title) {
         if (title != null) return positionProfileRepository.findByTitle(title);
         return positionProfileRepository.findAll();
     }
-
+    @Transactional(propagation = Propagation.REQUIRED)
+    @PreAuthorize("hasRole('ROLE_RECRUTER')")
     public void savePositionProfile(Principal principal, PositionProfile positionProfile, MultipartFile file1, MultipartFile file2, MultipartFile file3) throws IOException {
         positionProfile.setUser(getUserByPrincipal(principal));
         Image image1;
@@ -50,7 +54,7 @@ public class PositionProfileService {
         positionProfileFromDB.setPreviewImageId(positionProfileFromDB.getImages().get(0).getId());
         positionProfileRepository.save(positionProfile);
     }
-
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public User getUserByPrincipal(Principal principal) {
         if (principal == null) return new User();
         return userRepository.findByEmail(principal.getName());
@@ -65,21 +69,11 @@ public class PositionProfileService {
         image.setBytes(file.getBytes());
         return image;
     }
-
-    public void deletePositionProfile(User user, Long id) {
-        PositionProfile positionProfile= positionProfileRepository.findById(id)
-                .orElse(null);
-        if (positionProfile != null) {
-            if (positionProfile.getUser().getId().equals(user.getId())) {
-                positionProfileRepository.delete(positionProfile);
-                log.info("PositionProfile with id = {} was deleted", id);
-            } else {
-                log.error("User: {} haven't this positionProfile with id = {}", user.getEmail(), id);
-            }
-        } else {
-            log.error("PositionProfile with id = {} is not found", id);
-        }    }
-
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void deletePositionProfile(Long id) {
+        positionProfileRepository.deleteById(id);
+    }
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public PositionProfile getPositionProfileById(Long id) {
         return positionProfileRepository.findById(id).orElse(null);
     }

@@ -65,12 +65,15 @@
     </#if>
     </div>
 </nav>
+
+<!--<img src="/static/images/fon.png" width="1190" height="600"> -->
+
 <hr>
 <#if user.email??>
     <#if user.isRecruter()>
     <h2>Добро пожаловать! Вы зашли как рекрутер.</h2>
     <a href="/application">Перейти к просмотру заявок на подбор</a> |
-    <a href="/">Перейти к просмотру входящих резюме</a>
+    <a href="/resume">Перейти к просмотру входящих резюме</a>
 <hr>
     <h4>Создать новый профиль должности:</h4><hr>
     <div>
@@ -136,13 +139,13 @@
         </form>
     </div>
     <hr>
-    <h3>Доступные вакансии:</h3>
+    <h3>Созданные профили:</h3>
     <div class="card-columns">
         <#list positionProfiles as positionProfile>
         <a href="/positionProfile/${positionProfile.id}" class="product-link">
             <div class="card text-white bg-dark my-3 product">
                 <img src="/images/${positionProfile.previewImageId}"
-                     class="card-img-top">
+                     class="card-img-top" width="250" height="200">
                 <div class="card-body">
                     <h5 class="card-title">${positionProfile.title}</h5>
                     <p class="card-text">${positionProfile.wage} ₽</p>
@@ -168,7 +171,7 @@
         <a href="/positionProfile/${positionProfile.id}" class="product-link">
             <div class="card text-white bg-dark my-3 product">
                 <img src="/images/${positionProfile.previewImageId}"
-                     class="card-img-top">
+                     class="card-img-top" width="250" height="200">
                 <div class="card-body">
                     <h5 class="card-title">${positionProfile.title}</h5>
                     <p class="card-text">${positionProfile.wage} ₽</p>
@@ -184,6 +187,8 @@
 </#if>
 <#if user.isDepartmentHead()>
     <h3>Добро пожаловать ! Вы зашли как руководитель департамента.</h3>
+    <hr>
+        <a href="/application">Перейти к просмотру имеющихся заявок...</a>
     <hr>
     <h4>Добавить новую заявку</h4>
 <div>
@@ -241,9 +246,6 @@
 </div>
 <hr>
 <br>
-<div>
-    <a href="/application">Перейти к просмотру имеющихся заявок...</a>
-</div>
 <br>
 </#if>
 <#if user.isDirector()>
@@ -262,7 +264,7 @@
     <a href="/positionProfile/${positionProfile.id}" class="product-link">
         <div class="card text-white bg-dark my-3 product">
             <img src="/images/${positionProfile.previewImageId}"
-                 class="card-img-top">
+                 class="card-img-top" width="250" height="200">
             <div class="card-body">
                 <h5 class="card-title">${positionProfile.title}</h5>
                 <p class="card-text">${positionProfile.wage} ₽</p>
@@ -276,5 +278,6 @@
     <h1 style="text-align: center">Не найдено</h1>
 </#list>
 </#if>
+
 </body>
 </html>

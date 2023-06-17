@@ -18,8 +18,7 @@ public class ResumeService {
     private final ResumeRepository resumeRepository;
     private final UserRepository userRepository;
 
-    public List<Resume> listResume(String title) {
-        if (title != null) return resumeRepository.findByTitle(title);
+    public List<Resume> listResume() {
         return resumeRepository.findAll();
     }
 

@@ -25,7 +25,6 @@ public class PositionProfileController {
         model.addAttribute("user", positionProfileService.getUserByPrincipal(principal));
         return "positionProfiles";
     }
-
     @GetMapping("/positionProfile/{id}")
     public String positionProfileInfo(@PathVariable Long id, Model model, Principal principal) {
         PositionProfile positionProfile = positionProfileService.getPositionProfileById(id);
@@ -43,8 +42,7 @@ public class PositionProfileController {
     }
 
     @PostMapping("/positionProfile/delete/{id}")
-    public String deletePositionProfile(@PathVariable Long id, Principal principal) {
-        positionProfileService.deletePositionProfile(positionProfileService.getUserByPrincipal(principal), id);
-        return "redirect:/";
+    public String deletePositionProfile(@PathVariable Long id) {
+        return "/";
     }
 }

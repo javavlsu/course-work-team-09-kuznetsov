@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -20,8 +19,8 @@ public class ResumeController {
     private final ResumeService resumeService;
 
     @GetMapping("/resume")
-    public String resumes(@RequestParam(name = "title", required = false) String title, Principal principal, Model model) {
-        model.addAttribute("resumes", resumeService.listResume(title));
+    public String resumes(Principal principal, Model model) {
+        model.addAttribute("resumes", resumeService.listResume());
         model.addAttribute("user", resumeService.getUserByPrincipal(principal));
         return "resumes";
     }

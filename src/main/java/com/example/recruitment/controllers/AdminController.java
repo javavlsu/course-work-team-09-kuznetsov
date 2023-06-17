@@ -12,17 +12,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
 import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
-@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class AdminController {
     private final UserService userService;
 
     @GetMapping("/admin")
-    public String admin(Model model) {
-        model.addAttribute("users", userService.list());
+    public String applications(Principal principal, Model model) {
+        model.addAttribute("users", userService.listUsers());
+        model.addAttribute("user", userService.getUserByPrincipal(principal));
         return "admin";
     }
 
