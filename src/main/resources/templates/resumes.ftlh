@@ -59,7 +59,7 @@
 </div>
 </nav>
 <hr>
-<#if user.isRecruiter>
+<#if user.isRecruter()>
 <hr>
     <#list resumes as resume>
     <div class="list-group">

@@ -2,6 +2,7 @@ package com.example.recruitment.controllers;
 
 
 import com.example.recruitment.models.Resume;
+import com.example.recruitment.repositories.ResumeRepository;
 import com.example.recruitment.services.ResumeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class ResumeController {
     private final ResumeService resumeService;
+    private final ResumeRepository resumeRepository;
 
     @GetMapping("/resume")
     public String resumes(Principal principal, Model model) {
@@ -39,8 +41,11 @@ public class ResumeController {
         return "redirect:/positionProfile";
     }
 
-    @PostMapping("/resume/delete/{id}")
-    public String deleteResume(@PathVariable Long id) {
-        return "redirect:/";
+    @GetMapping("/resume/delete/{id}")
+    public String deleteResume(@PathVariable("id") Long id, Model model) {
+        Resume resume= resumeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid resume Id:" + id));
+        resumeRepository.delete(resume);
+        return "redirect:/resume";
     }
 }

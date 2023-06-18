@@ -35,6 +35,20 @@ public class ApplicationsService {
         return userRepository.findByEmail(principal.getName());
     }
     @Transactional(propagation = Propagation.REQUIRED)
+    public Application updateApplication(Long id, Application applicationRequest) {
+
+        Application existingApplication = applicationRepository.findById(id).get();
+        existingApplication.setTitle(applicationRequest.getTitle());
+        existingApplication.setName_post(applicationRequest.getName_post());
+        existingApplication.setNumber_people(applicationRequest.getNumber_people());
+        existingApplication.setRequirements(applicationRequest.getRequirements());
+        existingApplication.setWage(applicationRequest.getWage());
+        existingApplication.setSchedule(applicationRequest.getSchedule());
+        existingApplication.setDate_of_completion(applicationRequest.getDate_of_completion());
+        existingApplication.setResult_visirovanya(applicationRequest.getResult_visirovanya());
+        return applicationRepository.save(existingApplication);
+    }
+    @Transactional(propagation = Propagation.REQUIRED)
     public void deleteApplication(Long id) {
         applicationRepository.deleteById(id);
     }

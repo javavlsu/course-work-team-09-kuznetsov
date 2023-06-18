@@ -1,6 +1,7 @@
 package com.example.recruitment.controllers;
 
 import com.example.recruitment.models.PositionProfile;
+import com.example.recruitment.repositories.PositionProfileRepository;
 import com.example.recruitment.services.PositionProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class PositionProfileController {
     private final PositionProfileService positionProfileService;
+    private final PositionProfileRepository positionProfileRepository;
 
     @GetMapping("/positionProfile")
     public String positionProfiles(@RequestParam(name = "title", required = false) String title, Principal principal, Model model) {
@@ -41,8 +43,12 @@ public class PositionProfileController {
         return "redirect:/positionProfile";
     }
 
-    @PostMapping("/positionProfile/delete/{id}")
-    public String deletePositionProfile(@PathVariable Long id) {
-        return "/";
+    @GetMapping("/positionProfile/delete/{id}")
+    public String deletePositionProfile(@PathVariable("id") Long id, Model model) {
+        PositionProfile positionProfile = positionProfileRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid position prodile Id:" + id));
+        positionProfileRepository.delete(positionProfile);
+        return "redirect:/positionProfile";
     }
+
 }

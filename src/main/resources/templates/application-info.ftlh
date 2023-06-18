@@ -79,13 +79,13 @@
     <b>Заработная плата: </b> ${application.wage}<br>
     <b>График: </b> ${application.schedule}<br>
     <b>Дата создания заявки: </b> ${application.date_of_completion}<br>
+    <b>Результат визирования: </b> ${application.result_visirovanya}<br>
+    <#if user.isDirector()>
+        <a href="/edit/${application.id}">Визировать заявку...</a>
+    </#if>
 <hr>
-<h3>Результат визирования:</h3>
-<div>
-    <textarea type="text" id="textareaInfo" rows="10" cols="80"></textarea>
-</div>
 <br>
-<form action="/application/delete/${application.id}" method="post">
+<form action="/application/delete/${application.id}" method="get">
     <input class="btn btn-dark my-2 my-sm-0" type="submit" value="Удалить заявку"/>
 </form>
 <br>

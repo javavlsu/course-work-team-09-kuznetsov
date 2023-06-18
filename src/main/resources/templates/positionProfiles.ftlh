@@ -239,6 +239,19 @@
                 <input type="text" required class="form-control" id="date_of_completion" name="date_of_completion">
             </div>
         </div>
+        <div class="form-group">
+            <label for="result_visirovanya">Результат визирования</label>
+            <select id="result_visirovanya" required name="result_visirovanya" class="form-control">
+                <option value="">Выберите состояние заявки:</option>
+
+                <#if user.isDepartmentHead()>
+                    <option value="Отправлена на визирование!">Отправлена на визирование!</option>
+                </#if>
+                <#if user.isDirector()>
+                    <option value="Визирована">Визирована!</option>
+                </#if>
+            </select>
+        </div>
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
 
         <button type="submit" style="width: 100%" class="btn btn-dark">Добавить</button>
