@@ -66,7 +66,14 @@
 </nav>
 
 <!--<img src="/static/images/fon.png" width="1190" height="600"> -->
-
+<main>
+    <#if !user.email??>
+        <img src="/static/images/fon.png" width="1190" height="600">
+    <div>
+        <h3>О НАС</h3>
+        <p>Мы представляем компанию по подбору персонала на производство готовой продукции...</p>
+    </div>
+    </#if>
 <hr>
 <#if user.email??>
     <#if user.isRecruter()>
@@ -291,5 +298,14 @@
     <h1 style="text-align: center">Не найдено</h1>
 </#list>
 </#if>
+</main>
+<hr>
+<footer>
+    <div>
+        <h6>Контакты компании:</h6>
+        <p>Номер телефона: +7(900)-909-90-90<br>
+        Email: andrusha02.2002@mail.ru</p>
+    </div>
+</footer>
 </body>
 </html>
