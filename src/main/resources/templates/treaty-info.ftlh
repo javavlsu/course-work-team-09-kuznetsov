@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Подбор персонала</title>
-    <link rel="stylesheet" href="/static/css/style.css">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
-          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
-          crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
+<body style="margin-left:10%; margin-right:10%">
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
         <a style="text-decoration: none" href="/">
+
             <span class="navbar-brand mb-0 h1">Отдел подбора</span>
         </a>
         <#if user.email??>
@@ -61,27 +59,19 @@
 </#if>
 </div>
 </nav>
-<br>
-<body style="margin-left:10%; margin-right:10%">
-<#list images as img>
-<img src="/images/${img.id}" height="130px" width="150px"/><br><br>
-</#list>
-<h4>Подробная информация о профиле должности</h4>
-    <b>Наименование должности: </b> ${positionProfile.title}<br>
-    <b>Описание: </b> ${positionProfile.description}<br>
-    <b>Заработная плата: </b> ${positionProfile.wage}<br>
-    <b>График: </b> ${positionProfile.schedule}<br>
-    <b>Требования: </b> ${positionProfile.requirements}<br>
-    <b>Опыт: </b> ${positionProfile.experience}<br>
 <hr>
-<#if user.isRecruter()>
-    <form action="/positionProfile/delete/${positionProfile.id}" method="post">
-        <input class="btn btn-dark my-2 my-sm-0" type="submit" value="Удалить профиль"/>
-    </form>
-</#if>
-<#if user.isApplicant()>
-    <h4>Понравилась вакансия ? Отправьте нам своё резюме на рассмотрение !</h4>
-    <a href="/resume">Заполнить резюме...</a>
-</#if>
+<h3>Подробная информация о договоре</h3>
+<b>Наименование должности: </b> ${treaty.name_post}<br>
+<b>ФИО: </b> ${treaty.fio}<br>
+<b>Статус договора: </b> ${treaty.statusTreaty}<br>
+<b>Персональные данные: </b> ${treaty.personalData}<br>
+<b>Заработная плата: </b> ${treaty.wage}<br>
+<b>Дата заключения: </b> ${treaty.date_of_conclusion}<br>
+<hr>
+<form action="/treaty/delete/${treaty.id}" method="post">
+    <input class="btn btn-dark my-2 my-sm-0" type="submit" value="Удалить договор"/>
+</form>
+<br>
+<a href="/treaty">Вернуться назад</a>
 </body>
 </html>

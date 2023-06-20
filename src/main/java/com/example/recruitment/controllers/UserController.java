@@ -39,7 +39,7 @@ public class UserController {
             model.addAttribute("Error Message","Пользователь с email:" + user.getEmail() + "уже существует! ");
             return "registration";
         }
-        return "positionProfile";
+        return "/login";
     }
 
     @GetMapping("/index")

@@ -10,7 +10,7 @@
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
         <a style="text-decoration: none" href="/">
-            <span class="navbar-brand mb-0 h1">Отдел подбора</span>
+            <span class="navbar-brand mb-0 h1">Профессиональный подбор</span>
         </a>
         <#if user.email??>
         <div class="dropdown text-end">

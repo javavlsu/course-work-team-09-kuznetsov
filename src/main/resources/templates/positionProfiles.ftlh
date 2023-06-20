@@ -5,18 +5,17 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="/static/css/style.css">
-
+        <link rel="stylesheet" href="/static/images/fon.png">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
               integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
               crossorigin="anonymous">
-
-        <title>Отдел подбора</title>
+        <title>Отдел по подбору персонала на производство</title>
     </head>
 <body style="margin-left:10%; margin-right:10%">
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
         <a href="/">
-            <span class="navbar-brand mb-0 h1">Отдел подбора</span>
+            <span class="navbar-brand mb-0 h1">Компания: Профессиональный подбор</span>
         </a>
         <#if user.email??>
         <div class="dropdown text-end">
@@ -73,7 +72,8 @@
     <#if user.isRecruter()>
     <h2>Добро пожаловать! Вы зашли как рекрутер.</h2>
     <a href="/application">Перейти к просмотру заявок на подбор</a> |
-    <a href="/resume">Перейти к просмотру входящих резюме</a>
+    <a href="/resume">Перейти к просмотру входящих резюме</a> |
+    <a href="/treaty">Перейти к оформлению договора</a>
 <hr>
     <h4>Создать новый профиль должности:</h4><hr>
     <div>
@@ -291,6 +291,5 @@
     <h1 style="text-align: center">Не найдено</h1>
 </#list>
 </#if>
-
 </body>
 </html>

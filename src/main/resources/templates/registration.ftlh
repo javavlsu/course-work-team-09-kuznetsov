@@ -12,8 +12,8 @@
             <input type="email" class="form-control" id="email" required name="email">
         </div>
         <div class="form-group">
-            <label for="phoneNumber">Номер телефона</label>
-            <input type="text" class="form-control" id="phoneNumber" required name="phoneNumber">
+            <label for="numberPhone">Номер телефона</label>
+            <input type="text" class="form-control" id="numberPhone" required name="numberPhone">
         </div>
         <div class="form-group">
             <label for="password">Пароль</label>
