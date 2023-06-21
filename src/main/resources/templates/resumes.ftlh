@@ -68,6 +68,7 @@
     <#else>
     <h3>Заявок нет !</h3>
     </#list>
+
 </#if>
     <hr>
 <#if user.isApplicant()>

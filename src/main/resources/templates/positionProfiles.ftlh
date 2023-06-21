@@ -71,10 +71,11 @@
         <img src="/static/images/fon.png" width="1190" height="600">
     <div>
         <h3>О НАС</h3>
-        <p>Мы представляем компанию по подбору персонала на производство готовой продукции...</p>
+        <p>Мы представляем компанию по подбору персонала на производство готовой продукции... Компания без любых трудностей поможет подобрать вам
+        подходящую вакансию. </p>
     </div>
     </#if>
-<hr>
+    <b><a href="/new">Перейти в раздел "Новости"...</a></b>
 <#if user.email??>
     <#if user.isRecruter()>
     <h2>Добро пожаловать! Вы зашли как рекрутер.</h2>
@@ -152,7 +153,7 @@
         <a href="/positionProfile/${positionProfile.id}" class="product-link">
             <div class="card text-white bg-dark my-3 product">
                 <img src="/images/${positionProfile.previewImageId}"
-                     class="card-img-top" width="250" height="200">
+                     class="card-img-top" width="280" height="200">
                 <div class="card-body">
                     <h5 class="card-title">${positionProfile.title}</h5>
                     <p class="card-text">${positionProfile.wage} ₽</p>
@@ -178,7 +179,7 @@
         <a href="/positionProfile/${positionProfile.id}" class="product-link">
             <div class="card text-white bg-dark my-3 product">
                 <img src="/images/${positionProfile.previewImageId}"
-                     class="card-img-top" width="250" height="200">
+                     class="card-img-top" width="280" height="200">
                 <div class="card-body">
                     <h5 class="card-title">${positionProfile.title}</h5>
                     <p class="card-text">${positionProfile.wage} ₽</p>
@@ -217,7 +218,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="requirements">Требования</label>
+            <label for="requirements1">Требования</label>
             <textarea required class="form-control" id="requirements1" name="requirements"></textarea>
         </div>
         <div class="form-group">
@@ -251,12 +252,7 @@
             <select id="result_visirovanya" required name="result_visirovanya" class="form-control">
                 <option value="">Выберите состояние заявки:</option>
 
-                <#if user.isDepartmentHead()>
-                    <option value="Отправлена на визирование!">Отправлена на визирование!</option>
-                </#if>
-                <#if user.isDirector()>
-                    <option value="Визирована">Визирована!</option>
-                </#if>
+                    <option value="Отправлена на визирование!">Отправить на визирование!</option>
             </select>
         </div>
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
@@ -284,7 +280,7 @@
     <a href="/positionProfile/${positionProfile.id}" class="product-link">
         <div class="card text-white bg-dark my-3 product">
             <img src="/images/${positionProfile.previewImageId}"
-                 class="card-img-top" width="250" height="200">
+                 class="card-img-top" width="280" height="200">
             <div class="card-body">
                 <h5 class="card-title">${positionProfile.title}</h5>
                 <p class="card-text">${positionProfile.wage} ₽</p>

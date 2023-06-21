@@ -63,25 +63,19 @@
 </nav>
 <br>
 <body style="margin-left:10%; margin-right:10%">
-<#list images as img>
-<img src="/images/${img.id}" width="250px" height="200px"/><br><br>
-</#list>
-<h4>Подробная информация о профиле должности</h4>
-    <b>Наименование должности: </b> ${positionProfile.title}<br>
-    <b>Описание: </b> ${positionProfile.description}<br>
-    <b>Заработная плата: </b> ${positionProfile.wage}<br>
-    <b>График: </b> ${positionProfile.schedule}<br>
-    <b>Требования: </b> ${positionProfile.requirements}<br>
-    <b>Опыт: </b> ${positionProfile.experience}<br>
+<h3>Раздел актуальных новостей:</h3>
 <hr>
-<#if user.isRecruter()>
-    <form action="/positionProfile/delete/${positionProfile.id}" method="post">
-        <input class="btn btn-dark my-2 my-sm-0" type="submit" value="Удалить профиль"/>
-    </form>
-</#if>
-<#if user.isApplicant()>
-    <h4>Понравилась вакансия ? Отправьте нам своё резюме на рассмотрение !</h4>
-    <a href="/resume">Заполнить резюме...</a>
-</#if>
+<#list news as new>
+    <div class="card">
+        <div class="card-header">
+            ${new.name_author}
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">${new.title}</h5>
+            <p class="card-text">${new.text}</p>
+            <p class="card-text">Рейтинг: ${new.rating}</p>
+        </div>
+    </div>
+</#list>
 </body>
 </html>

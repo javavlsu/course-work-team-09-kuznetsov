@@ -70,4 +70,8 @@ public class UserService {
         }
         userRepository.save(user);
     }
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public User getApplicationById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
 }

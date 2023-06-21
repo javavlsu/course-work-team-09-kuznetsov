@@ -2,12 +2,17 @@ package com.example.recruitment.controllers;
 
 import com.example.recruitment.models.Application;
 import com.example.recruitment.repositories.ApplicationRepository;
+import com.example.recruitment.repositories.UserRepository;
 import com.example.recruitment.services.ApplicationsService;
+import com.example.recruitment.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 
@@ -16,6 +21,8 @@ import java.security.Principal;
 public class ApplicationController {
     private final ApplicationsService applicationsService;
     private final ApplicationRepository applicationRepository;
+    private final UserRepository userRepository;
+    private final UserService userService;
 
     @GetMapping("/application")
     public String applications(@RequestParam(name = "title", required = false) String title, Principal principal, Model model) {
@@ -26,7 +33,7 @@ public class ApplicationController {
 
     @GetMapping("/application/{id}")
     public String applicationInfo(@PathVariable Long id, Model model, Principal principal) {
-        Application application= applicationsService.getApplicationById(id);
+        Application application = applicationsService.getApplicationById(id);
         model.addAttribute("user", applicationsService.getUserByPrincipal(principal));
         model.addAttribute("application", applicationsService.getApplicationById(id));
         return "application-info";
@@ -38,25 +45,19 @@ public class ApplicationController {
         return "redirect:/";
     }
     @GetMapping("/edit/{id}")
-    public String showUpdateForm(@PathVariable("id") Long id, Model model, Principal principal) {
+    public String showUpdateForm(@PathVariable("id") long id, Model model, Principal principal) {
+        Application application = applicationRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid application Id:" + id));
         model.addAttribute("user", applicationsService.getUserByPrincipal(principal));
-        Application application= applicationRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid application Id:" + id));
-
         model.addAttribute("application", application);
         return "editApplication";
     }
-    @PostMapping("/update/{id}")
-    public String updateApplication(@PathVariable("id") Long id, Application application,
-                             BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            application.setId(id);
-            return "editApplication";
-        }
 
+    @PostMapping("/update/{id}")
+    public String updateApplication(@PathVariable("id") long id, Application application, BindingResult result, Model model,Principal principal) {
+        model.addAttribute("user", applicationsService.getUserByPrincipal(principal));
         applicationRepository.save(application);
-        model.addAttribute("applications", applicationRepository.findAll());
-        return "redirect:/application";
+
+        return "application-info";
     }
    // @PostMapping("/application/{id}")
    // public String deleteApplication(@PathVariable Long id) {

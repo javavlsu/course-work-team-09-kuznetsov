@@ -90,5 +90,40 @@
     <h3>Пользователей нет</h3>
 </#list>
 </table>
+<hr>
+<h1>Добавление новостей на сайт:</h1>
+<div>
+    <form action="/new/create" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="title">Заголовок</label>
+            <input type="text" required class="form-control"
+                   id="title" name="title">
+        </div>
+        <div class="form-group">
+            <label for="text">Описание</label>
+            <textarea required class="form-control" id="text" name="text"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="name_author">Автор</label>
+            <div class="input-group mb-3">
+                <input type="text" required class="form-control" id="name_author" name="name_author">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="rating">Рейтинг</label>
+            <div class="input-group mb-3">
+                <input type="number" required class="form-control" id="rating" name="rating">
+            </div>
+        </div>
+
+        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+
+        <button type="submit" style="width: 100%" class="btn btn-dark">Добавить новую новость</button>
+    </form>
+</div>
+<br>
+<br>
 </body>
 </html>
+
+

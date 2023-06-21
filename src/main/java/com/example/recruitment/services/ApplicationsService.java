@@ -35,9 +35,9 @@ public class ApplicationsService {
         return userRepository.findByEmail(principal.getName());
     }
     @Transactional(propagation = Propagation.REQUIRED)
-    public Application updateApplication(Long id, Application applicationRequest) {
+    public Application updateApplication(Application applicationRequest) {
 
-        Application existingApplication = applicationRepository.findById(id).get();
+        Application existingApplication = applicationRepository.findById(applicationRequest.getId()).orElse(null);
         existingApplication.setTitle(applicationRequest.getTitle());
         existingApplication.setName_post(applicationRequest.getName_post());
         existingApplication.setNumber_people(applicationRequest.getNumber_people());
