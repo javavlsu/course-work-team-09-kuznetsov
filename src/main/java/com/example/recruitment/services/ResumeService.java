@@ -2,6 +2,7 @@ package com.example.recruitment.services;
 
 import com.example.recruitment.models.Resume;
 import com.example.recruitment.models.*;
+import com.example.recruitment.repositories.PositionProfileRepository;
 import com.example.recruitment.repositories.ResumeRepository;
 import com.example.recruitment.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,10 @@ import java.util.List;
 public class ResumeService {
     private final ResumeRepository resumeRepository;
     private final UserRepository userRepository;
+    private final PositionProfileRepository positionProfileRepository;
 
-    public List<Resume> listResume() {
+    public List<Resume> listResume(String fio) {
+        if (fio != null) return resumeRepository.findResultByName(fio);
         return resumeRepository.findAll();
     }
 
@@ -30,7 +33,6 @@ public class ResumeService {
         if (principal == null) return new User();
         return userRepository.findByEmail(principal.getName());
     }
-
 
     public void deleteResume(Long id) {
         resumeRepository.deleteById(id);

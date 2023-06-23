@@ -68,7 +68,7 @@
         <th scope="col">Номер телефона</th>
         <th scope="col">Активность</th>
         <th scope="col">Роли</th>
-        <th scope="col">Бан</th>
+        <th scope="col">Блокировка</th>
         <th scope="col">Редактирование</th>
     </tr>
     </thead>
@@ -81,7 +81,7 @@
         <th>
             <form action="/admin/user/ban/${user.id}" method="post">
                 <input type="hidden" name="_csrf" value="${_csrf.token}">
-                <input type="submit" value="Бан">
+                <input type="submit" value="Блокировка">
             </form>
         </th>
         <th><a href="/admin/user/edit/${user.id}">Назначить роль</a></th>

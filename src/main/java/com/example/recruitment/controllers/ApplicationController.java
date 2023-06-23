@@ -30,7 +30,6 @@ public class ApplicationController {
         model.addAttribute("user", applicationsService.getUserByPrincipal(principal));
         return "applications";
     }
-
     @GetMapping("/application/{id}")
     public String applicationInfo(@PathVariable Long id, Model model, Principal principal) {
         Application application = applicationsService.getApplicationById(id);
@@ -38,7 +37,6 @@ public class ApplicationController {
         model.addAttribute("application", applicationsService.getApplicationById(id));
         return "application-info";
     }
-
     @PostMapping("/application/create")
     public String createApplication(Application application) {
         applicationsService.saveApplication(application);
@@ -51,7 +49,6 @@ public class ApplicationController {
         model.addAttribute("application", application);
         return "editApplication";
     }
-
     @PostMapping("/update/{id}")
     public String updateApplication(@PathVariable("id") long id, Application application, BindingResult result, Model model,Principal principal) {
         model.addAttribute("user", applicationsService.getUserByPrincipal(principal));
@@ -59,11 +56,6 @@ public class ApplicationController {
 
         return "application-info";
     }
-   // @PostMapping("/application/{id}")
-   // public String deleteApplication(@PathVariable Long id) {
-   //     applicationsService.deleteApplication(id);
-   //     return "Deleted Successfully";
-   // }
     @GetMapping("/application/delete/{id}")
     public String deleteApplication(@PathVariable("id") Long id, Model model) {
         Application application= applicationRepository.findById(id)

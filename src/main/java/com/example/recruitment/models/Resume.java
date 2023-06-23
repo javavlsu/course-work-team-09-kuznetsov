@@ -25,4 +25,10 @@ public class Resume {
 
     public Resume() {
     }
+    private Long profile_id;
+
+    @OneToOne
+    @JoinColumn(name = "User_id")
+    private User User_id;
+
 }

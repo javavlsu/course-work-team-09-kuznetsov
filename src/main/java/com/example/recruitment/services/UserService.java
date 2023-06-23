@@ -3,7 +3,6 @@ package com.example.recruitment.services;
 import com.example.recruitment.models.User;
 import com.example.recruitment.models.enums.Role;
 import com.example.recruitment.repositories.UserRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,10 +18,22 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder){
+
+        if (userRepository == null){
+            throw new IllegalArgumentException("Null user repository was provided");
+        }
+        this.userRepository = userRepository;
+        if (passwordEncoder == null){
+            throw new IllegalArgumentException("Null passwordEncoder was provided");
+        }
+        this.passwordEncoder = passwordEncoder;
+    }
+
     @Transactional(propagation = Propagation.REQUIRED)
     public boolean createUser(User user) {
         String userEmail = user.getEmail();
@@ -74,4 +85,5 @@ public class UserService {
     public User getApplicationById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
+
 }

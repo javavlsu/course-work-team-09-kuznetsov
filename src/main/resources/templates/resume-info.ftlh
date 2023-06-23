@@ -66,8 +66,10 @@
 <b>Опыт работы: </b> ${resume.experience}<br>
 <b>Навыки: </b> ${resume.skills}<br>
 <b>Ожидаемая зп: </b> ${resume.expectedSalary}<br>
+<b>Информация о пользователе: </b> ${resume.user_id}<br>
+<b>Идентификатор вакансии: </b> ${resume.profile_id}<br>
 <hr>
-<form action="/resume/delete/${resume.id}" method="post">
+<form action="/resume/delete/${resume.id}" method="get">
     <input class="btn btn-dark my-2 my-sm-0" type="submit" value="Удалить резюме"/>
 </form>
 <br>

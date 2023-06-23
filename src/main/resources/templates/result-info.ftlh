@@ -2,16 +2,14 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Подбор персонала</title>
-    <link rel="stylesheet" href="/static/css/style.css">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
-          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
-          crossorigin="anonymous">
+    <title>Подробные результаты</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
+<body style="margin-left:10%; margin-right:10%">
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
         <a style="text-decoration: none" href="/">
+
             <span class="navbar-brand mb-0 h1">Отдел подбора</span>
         </a>
         <#if user.email??>
@@ -61,36 +59,21 @@
 </#if>
 </div>
 </nav>
-<main>
-<br>
-<body style="margin-left:10%; margin-right:10%">
-<h3>Раздел актуальных новостей:</h3>
 <hr>
-<#list news as new>
-    <div class="card">
-        <div class="card-header">
-            ${new.name_author}
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">${new.title}</h5>
-            <p class="card-text">${new.text}</p>
-            <p class="card-text">Рейтинг: ${new.rating}</p>
-            <#if user.isAdmin()>
-            <form action="/new/delete/${new.id}" method="get">
-                <input class="btn btn-dark my-2 my-sm-0" type="submit" value="Удалить новость"/>
-            </form>
-            </#if>
-        </div>
-        <hr>
-    </div>
-</#list>
-</main>
-<footer>
-    <div>
-        <h6>Контакты компании:</h6>
-        <p>Номер телефона: +7(900)-909-90-90<br>
-            Email: andrusha02.2002@mail.ru</p>
-    </div>
-</footer>
+<h3>Подробная информация о резюме</h3>
+<b>Идентификатор пользователя </b> ${result.user_id}<br>
+<b>Идентификатор вакансии: </b> ${result.position_id}<br>
+<b>Комментарий: </b> ${result.description}<br>
+<b>Адрес: </b> ${result.address}<br>
+<b>Итог: </b> ${result.result_itog}<br>
+<a href="/result/edit/${result.id}">Дать обратную связь...</a>
+<hr>
+<#if user.isRecruter()>
+<form action="/result/delete/${result.id}" method="get">
+    <input class="btn btn-dark my-2 my-sm-0" type="submit" value="Удалить результаты"/>
+</form>
+</#if>
+<br>
+<a href="/result">Вернуться назад</a>
 </body>
 </html>

@@ -3,6 +3,7 @@ package com.example.recruitment.controllers;
 
 import com.example.recruitment.models.Resume;
 import com.example.recruitment.repositories.ResumeRepository;
+import com.example.recruitment.services.PositionProfileService;
 import com.example.recruitment.services.ResumeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -19,10 +21,11 @@ import java.security.Principal;
 public class ResumeController {
     private final ResumeService resumeService;
     private final ResumeRepository resumeRepository;
+    private final PositionProfileService positionProfileService;
 
     @GetMapping("/resume")
-    public String resumes(Principal principal, Model model) {
-        model.addAttribute("resumes", resumeService.listResume());
+    public String resumes(@RequestParam(name = "Fio", required = false) String fio, Principal principal, Model model, Long id) {
+        model.addAttribute("resumes", resumeService.listResume(fio));
         model.addAttribute("user", resumeService.getUserByPrincipal(principal));
         return "resumes";
     }
@@ -36,7 +39,7 @@ public class ResumeController {
     }
 
     @PostMapping("/resume/create")
-    public String createResume(Resume resume) throws IOException {
+    public String createResume(Long id, Resume resume, Model model, Principal principal) throws IOException {
         resumeService.saveResume(resume);
         return "redirect:/positionProfile";
     }

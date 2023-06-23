@@ -36,7 +36,7 @@ public class NewsController {
     @PostMapping("/new/create")
     public String createNew(New news) {
         newsService.saveNew(news);
-        return "redirect:/";
+        return "redirect:/admin";
     }
     @GetMapping("/new/delete/{id}")
     public String deleteNew(@PathVariable("id") Long id, Model model) {

@@ -75,12 +75,35 @@
         подходящую вакансию. </p>
     </div>
     </#if>
+<hr>
     <b><a href="/new">Перейти в раздел "Новости"...</a></b>
+<hr>
+<#if !user.email??>
+<div class="card-columns">
+    <#list positionProfiles as positionProfile>
+    <a href="/positionProfile/${positionProfile.id}" class="product-link">
+        <div class="card text-white bg-dark my-3 product">
+            <img src="/images/${positionProfile.previewImageId}"
+                 class="card-img-top" width="280" height="200">
+            <div class="card-body">
+                <h5 class="card-title">${positionProfile.title}</h5>
+                <p class="card-text">${positionProfile.wage} ₽</p>
+            </div>
+            <div class="card-footer">
+                ${positionProfile.schedule}
+            </div>
+        </div>
+    </a>
+    <#else>
+    <h1 style="text-align: center">Не найдено</h1>
+</#list>
+</#if>
 <#if user.email??>
     <#if user.isRecruter()>
     <h2>Добро пожаловать! Вы зашли как рекрутер.</h2>
     <a href="/application">Перейти к просмотру заявок на подбор</a> |
     <a href="/resume">Перейти к просмотру входящих резюме</a> |
+    <a href="/result">Дать обратную связь соискателю</a> |
     <a href="/treaty">Перейти к оформлению договора</a>
 <hr>
     <h4>Создать новый профиль должности:</h4><hr>
@@ -143,7 +166,8 @@
             </div>
             <input type="hidden" name="_csrf" value="${_csrf.token}"/>
 
-            <button type="submit" style="width: 100%" class="btn btn-dark">Добавить</button>
+            <button type="submit" style="width: 100%" class="btn btn-dark"
+                    оnclick="myPositionProfile()">Добавить</button>
         </form>
     </div>
     <hr>
@@ -274,6 +298,8 @@
 <#if user.isApplicant()>
     <h3>Добро пожаловать ! Вы зашли как соискатель.</h3>
 <hr>
+<a href="/treaty">Перейти к списку договоров...</a> |
+<a href="/result">Просмотр результатов:</a> |
 <h3>Доступные вакансии:</h3>
 <div class="card-columns">
     <#list positionProfiles as positionProfile>

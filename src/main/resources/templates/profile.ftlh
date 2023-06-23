@@ -41,7 +41,8 @@
     <br>
     Номер телефона: <b>${user.numberPhone}</b>
     <br>
-
+    <b>Личный идентификатор: ${user.id}</b>
+    <br>
 <form action="/logout" method="post">
     <input type="hidden" name="_csrf" value="${_csrf.token}"/>
     <button type="submit" style="text-align: center; width: 50%" class="btn btn-dark mb-2">

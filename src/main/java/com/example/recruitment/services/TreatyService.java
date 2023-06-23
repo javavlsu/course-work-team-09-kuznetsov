@@ -17,7 +17,8 @@ public class TreatyService {
     private final TreatyRepository treatyRepository;
     private final UserRepository userRepository;
 
-    public List<Treaty> listTreatys() {
+    public List<Treaty> listTreatys(Long user_id) {
+        if (user_id != null) return treatyRepository.findTreatyById(user_id);
         return treatyRepository.findAll();
     }
 

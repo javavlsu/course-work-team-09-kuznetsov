@@ -64,9 +64,10 @@
 <br>
 <body style="margin-left:10%; margin-right:10%">
 <#list images as img>
-<img src="/images/${img.id}" width="250px" height="200px"/><br><br>
+<img src="/images/${img.id}" width="250px" height="200px"/>
 </#list>
-<h4>Подробная информация о профиле должности</h4>
+<h4>Подробная информация о вакансии:</h4>
+    <b>Идентификатор вакансии: ${positionProfile.id}</b><br>
     <b>Наименование должности: </b> ${positionProfile.title}<br>
     <b>Описание: </b> ${positionProfile.description}<br>
     <b>Заработная плата: </b> ${positionProfile.wage}<br>
@@ -75,13 +76,13 @@
     <b>Опыт: </b> ${positionProfile.experience}<br>
 <hr>
 <#if user.isRecruter()>
-    <form action="/positionProfile/delete/${positionProfile.id}" method="post">
+    <form action="/positionProfile/delete/${positionProfile.id}" method="get">
         <input class="btn btn-dark my-2 my-sm-0" type="submit" value="Удалить профиль"/>
     </form>
 </#if>
 <#if user.isApplicant()>
     <h4>Понравилась вакансия ? Отправьте нам своё резюме на рассмотрение !</h4>
-    <a href="/resume">Заполнить резюме...</a>
+    <a href="/resume">Перейдите по ссылке для того, чтобы заполнить резюме или найти своё резюме в общем списке...</a>
 </#if>
 </body>
 </html>

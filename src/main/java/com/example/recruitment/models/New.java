@@ -19,4 +19,32 @@ public class New {
     private String name_author;
     @Column(name = "rating")
     private int rating;
+
+    public New(Long id, String title, String text, String name_author, int rating) {
+
+        this.id = id;
+        if (stringIsNullOrEmptyOrBlank(title)){
+            throw new IllegalArgumentException("Пустое наименование новости");
+        }
+
+        this.title = title;
+
+        if (stringIsNullOrEmptyOrBlank(text)){
+            throw new IllegalArgumentException("Пустое описание");
+        }
+
+        this.text = text;
+        this.name_author = name_author;
+        this.rating = rating;
+    }
+
+    public New() {
+
+    }
+
+    private boolean stringIsNullOrEmptyOrBlank(String row)
+    {
+        return row == null || row.isEmpty() || row.trim().isEmpty();
+    }
 }
+

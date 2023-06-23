@@ -103,7 +103,6 @@
                         <option value="1/3">График: 1/3</option>
                         <option value="2/2">График: 2/2</option>
                         <option value="2/4">График: 2/4</option>
-
                     </select>
                 </div>
                 <div class="form-group">

@@ -64,11 +64,10 @@
 <b>Наименование должности: </b> ${treaty.name_post}<br>
 <b>ФИО: </b> ${treaty.fio}<br>
 <b>Статус договора: </b> ${treaty.statusTreaty}<br>
-<b>Персональные данные: </b> ${treaty.personalData}<br>
 <b>Заработная плата: </b> ${treaty.wage}<br>
 <b>Дата заключения: </b> ${treaty.date_of_conclusion}<br>
 <hr>
-<form action="/treaty/delete/${treaty.id}" method="post">
+<form action="/treaty/delete/${treaty.id}" method="get">
     <input class="btn btn-dark my-2 my-sm-0" type="submit" value="Удалить договор"/>
 </form>
 <br>

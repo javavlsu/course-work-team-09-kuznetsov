@@ -3,7 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Отдел подбора</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script language="JavaScript">
+        window.onbeforeunload = function () {
+            localStorage.setItem('comment-save', document.getElementById('textarea').value);
+        }
+        window.onload = function () {
+            document.getElementById('textarea').value = localStorage.getItem('comment-save');
+        }
+        function AddInfo() {
+            document.getElementById('textarea').value = document.getElementById('buttonInfo').value.replace(/.+[\\\/]/, "");
+        };
+    </script>
 </head>
 <body style="margin-left:10%; margin-right:10%">
 <nav class="navbar navbar-dark bg-dark">
@@ -66,18 +77,31 @@
         <p><b>${resume.id}</b> ${resume.fio} | <a href="/resume/${resume.id}">Подробнее...</a></p>
     </div>
     <#else>
-    <h3>Заявок нет !</h3>
+    <h3>Нет входящих резюме !</h3>
     </#list>
-
 </#if>
     <hr>
 <#if user.isApplicant()>
+    <h4>Список всех резюме</h4>
+    <form action="/resume" method="get">
+        Поиск резюме по ФИО: <input type="text" name="Fio"><br>
+        <input class="btn btn-dark my-2 my-sm-0" type="submit" value="Поиск"/>
+    </form>
+    <#list resumes as resume>
+    <div class="list-group">
+        <p>Идентификатор пользователя:<b>${user.id}<br>
+        </b>ФИО пользователя:
+            ${resume.fio} | <a href="/resume/${resume.id}">Подробнее...</a></p>
+    </div>
+    <#else>
+    <h3>Нет входящих резюме !</h3>
+    </#list>
 <h2>Заполните своё резюме</h2><hr>
 <form action="/resume/create" method="post" enctype="multipart/form-data">
     <div class="form-group">
-        <label for="FIO">ФИО</label>
+        <label for="Fio">ФИО</label>
         <input type="text" required class="form-control"
-               id="FIO" name="FIO">
+               id="Fio" name="Fio">
     </div>
     <div class="form-group">
         <label for="Education">Образование</label>
@@ -101,6 +125,18 @@
             <div class="input-group-append">
                 <span class="input-group-text">₽</span>
             </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="User_id">Введите личный идентификатор (его можно узнать в ЛК)</label>
+        <div class="input-group mb-3">
+            <input type="number" class="form-control" id="User_id" name="User_id">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="profile_id">Введите идентификатор желаемой вакансии (его можно в детальном просмотре вакансии)</label>
+        <div class="input-group mb-3">
+            <input type="number" class="form-control" id="profile_id" name="profile_id">
         </div>
     </div>
 
